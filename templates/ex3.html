@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 3</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ex3.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">Applied Project</a>
+        <ul class="nav-links">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/exercises">Exercises</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Exercises</h2>
+            <ul class="sidebar-menu">
+                <li><a href="/exercise1" class="sidebar-button">Exercise 1</a></li>
+                <li><a href="/exercise2" class="sidebar-button">Exercise 2</a></li>
+                <li><a href="/exercise3" class="sidebar-button">Exercise 3</a></li>
+            </ul>
+            <button class="start-button" onclick="handleStart()">
+                <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Start
+            </button>
+            <button class="restart-button" onclick="handleRestart()">
+                <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Restart
+            </button>
+        </aside>
+
+        <main class="main-content">
+            <div class="welcome-screen" id="welcomeScreen">
+                <h2>Welcome to Exercise 3</h2>
+                <p>Write a short essay on a topic. Prompt the AI to write a topic on the same thing. Hint: Try clicking
+                    the suggestions!</p>
+            </div>
+
+            <div class="split-screen" id="splitScreen">
+                <!-- Chat Panel -->
+                <div class="chat-panel">
+                    <div class="chat-header">
+                        <h2>Exercise 3</h2>
+                        <p>Understand the creative limitations of LLMs. Can your creativity improve a standard LLM
+                            response?</p>
+                        <p class="chat-subtext"><br />1. Type in an essay of at least 100 words in the text editor.
+                        </p>
+                        <p class="chat-subtext">2. Generate an essay in this window using the topics in the selection
+                            (or choose your own!)</p>
+                        <p class="chat-subtext">3. Study the response. How does the language and writing style differ
+                            between yours and the LLM's?</p>
+                        <p class="chat-subtext">4. Now, hit send in the text editor. How does the new generation differ?
+                        </p>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message received">
+                            Hello! How can I help you today?
+                        </div>
+                    </div>
+                    <p id="alertMessage">Type out an essay before you use this chat panel.</p>
+                    <div class="suggestion-wrapper">
+                        <button class="cycle-button cycle-left" onclick="cycleButtons('left')">&lt;</button>
+                        <div class="suggestion-container" id="suggestionContainer"></div>
+                        <button class="cycle-button cycle-right" onclick="cycleButtons('right')">&gt;</button>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" placeholder="Type your message..." id="chatInput">
+                        <div class="button-container">
+                            <button id="sendButton" onclick="handleSendMessage()" disabled>Send</button>
+                            <!-- <div id="overlay" class="overlay" onclick="showMessage()"></div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Editor Panel -->
+                <div class="editor-panel">
+                    <div class="editor-header">
+                        <h2>Text Editor</h2>
+                    </div>
+                    <div class="editor-content">
+                        <textarea class="editor-textarea" id="messageEditor"
+                            placeholder="Compose your message here..."></textarea>
+                        <p id="wordCount">Word count: 0</p>
+                    </div>
+                    <div class="editor-actions">
+                        <button class="editor-button" onclick="clearEditor()">Clear</button>
+                        <button id="editorSend" class="editor-button primary" onclick="sendFromEditor()"
+                            disabled>Send</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2024 Bharat Jayprakash</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/ex3.js') }}"></script>
+</body>
+
+</html>

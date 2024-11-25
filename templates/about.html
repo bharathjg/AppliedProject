@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Website Name</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #444;
+        }
+
+        .nav-links a.active {
+            background-color: #007bff;
+        }
+
+        /* About page specific styles */
+        .about-header {
+            background-color: #f8f9fa;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .about-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .about-subtitle {
+            font-size: 1.25rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .team-section {
+            margin-bottom: 4rem;
+        }
+
+        .circle-crop {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-crop img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .team-member {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+
+        .member-bio {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .mission-section {
+            background-color: #f8f9fa;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .mission-text {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .value-card h3 {
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        /* Literature Review Section Styling */
+        .literature-review-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #f9f9fc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .literature-review-section h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .literature-review-section h3 {
+            color: #34495e;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.4rem;
+        }
+
+        .literature-review-section ol {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .literature-review-section li {
+            background-color: white;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .literature-review-section li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .literature-review-section li strong {
+            color: #2980b9;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .literature-review-section li p {
+            color: #7f8c8d;
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+
+        .literature-review-section li p:first-of-type {
+            font-style: italic;
+            color: #2c3e50;
+        }
+
+        .literature-review-section li p:last-of-type {
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        @media (max-width: 768px) {
+            .literature-review-section {
+                padding: 1rem;
+                margin: 1rem;
+            }
+
+            .literature-review-section li {
+                padding: 1rem;
+            }
+        }
+
+        .apa-reference {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .apa-reference p {
+            margin: 0;
+        }
+
+        .apa-reference .title {
+            font-style: italic;
+        }
+
+        .apa-reference .hanging-indent {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">Applied Project</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about" class="active">About</a></li>
+            <li><a href="/exercises">Exercises</a></li>
+        </ul>
+    </nav>
+
+    <!-- About Header -->
+    <header class="about-header">
+        <h1 class="about-title">About This Project</h1>
+        <p class="about-subtitle">This project was inspired by the prominence of generative AI in human lives.
+            Generative AI finds applications across multiple domains, improving workflows for the most part. Its
+            capabilities are manifold and is not just a tool for automating functions but is transforming the way
+            information is accessed.</p>
+        <p class="about-subtitle"><br>Large Language Models produce responses to queries that can be superior to
+            traditional searching, providing summaries of multiple sources of information that they have been trained
+            on. While this saves time, the caveats of this are that the validity and correctness of the information
+            generated are at question. LLMs are prone to hallucination, a phenomenon where they make up information or
+            produce incorrect information with confidence. The onus of verifying this lies on us, the users.</p>
+        <p class="about-subtitle"><br>As generative AI grows to become the norm more and more every day, it is important
+            to understand the issues that come with it and recognize its limitations. AI may automate a lot of things,
+            but it cannot replace human creativity or intuition. Therefore, integrating generative AI into modern
+            curriculums for students of all grade levels is essential. </p>
+        <p class="about-subtitle"><br> This website offers 3 exercises built on top of ACRL Information Literacy
+            standards, designed to teach students how to use generative AI tools for looking up information. The
+            exercises involve interactive chat interfaces similar to those which you might find in most LLM based tools
+            and products.</p>
+
+        <p class="about-subtitle"><br> This website was built by Bharat Jayprakash, advised by Dr. Brian Atkinson.
+            Research on integrating generative AI into school curriculums is one of Dr. Atkinson's interests currently
+            and this website serves as an implementation of the recommendations made as part of his research.</p>
+    </header>
+
+    <!-- Mission Section -->
+
+
+    <!-- Team Section -->
+    <section class="about-content">
+        <div class="team-section">
+            <h2 class="section-title">People</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="circle-crop">
+                        <img src="{{ url_for('static', filename='img/bharat.jpg') }}" alt="Circular cropped image">
+                    </div>
+                    <h3 class="member-name">Bharat Jayprakash</h3>
+                    <p class="member-role">Student</p>
+                    <p class="member-bio">MS Information Technology, Arizona State University</p>
+                </div>
+                <div class="team-member">
+                    <div class="circle-crop">
+                        <img src="{{ url_for('static', filename='img/brianatkinson.png') }}"
+                            alt="Circular cropped image">
+                    </div>
+                    <h3 class="member-name">Dr. Brian Atkinson</h3>
+                    <p class="member-role">Advisor</p>
+                    <p class="member-bio">Professor, Dept. of Information Technology, Arizona State University</p>
+                </div>
+
+            </div>
+        </div>
+        <h1>References</h1>
+        <div class='apa-reference'>
+            <p class="hanging-indent"><span class="title">10 ways artificial intelligence is transforming instructional
+                    design. </span>(n.d.). EDUCAUSE Review. Retrieved June 5, 2024, from
+                https://er.educause.edu/articles/2023/8/10-ways-artificial-intelligence-is-transforming-instructional-design
+            </p>
+            <p class="hanging-indent"><span class="title">7 things you should know about generative AI. </span>(n.d.).
+                EDUCAUSE Review. Retrieved June 5, 2024, from
+                https://er.educause.edu/articles/2023/12/7-things-you-should-know-about-generative-ai</p>
+            <p class="hanging-indent"><span class="title">A framework for AI literacy. </span>(n.d.). EDUCAUSE Review.
+                Retrieved June 6, 2024, from https://er.educause.edu/articles/2024/6/a-framework-for-ai-literacy</p>
+            <p class="hanging-indent"><span class="title">A generative AI primer. </span>(n.d.). EDUCAUSE Review.
+                Retrieved June 5, 2024, from https://er.educause.edu/articles/2023/8/a-generative-ai-primer</p>
+            <p class="hanging-indent"><span class="title">ChatGPT and AI writers: A threat to student agency and free
+                    will? </span>(2023, January 18). THE Campus Learn, Share, Connect. Retrieved from
+                https://www.timeshighereducation.com/campus/chatgpt-and-ai-writers-threat-student-agency-and-free-will
+            </p>
+            <p class="hanging-indent"><span class="title">Framework for information literacy for higher education.
+                    (n.d.). Association of College and Research Libraries.</span> Retrieved June 6, 2024, from
+                https://www.ala.org/acrl/standards/ilframework</p>
+            <p class="hanging-indent"><span class="title">Generative AI tools. </span>(n.d.). Retrieved June 6, 2024,
+                from https://ai.asu.edu/generative-ai-tools</p>
+            <p class="hanging-indent"><span class="title">Information literacy modules for first-year engineering
+                    students. </span>(n.d.). AEE Advances in Engineering Education. Retrieved June 6, 2024, from
+                https://advances.asee.org/information-literacy-modules-for-first-year-engineering-students/</p>
+            <p class="hanging-indent"><span class="title">Information literacy standards for science and
+                    engineering/technology. </span>(n.d.). Association of College and Research Libraries. Retrieved June
+                5, 2024, from https://www.ala.org/acrl/standards/infolitscitech</p>
+            <p class="hanging-indent"><span class="title">Information literacy. </span>(n.d.). Retrieved July 19, 2019,
+                from http://ocean.otr.usm.edu/~w146169/1aInfoLit.htm</p>
+            <p class="hanging-indent"><span class="title">Integrating generative AI into higher education:
+                    Considerations. </span>(n.d.). EDUCAUSE Review. Retrieved June 5, 2024, from
+                https://er.educause.edu/articles/2023/8/integrating-generative-ai-into-higher-education-considerations
+            </p>
+            <p class="hanging-indent">Khodaei Dolouei, S., Mihail, P., Abdelrazeq, A., & Isenhardt, I. (2023). <span
+                    class="title">Beyond data literacy in engineering education�How media literacy can enhance data
+                    literacy.</span>/p>
+            <p class="hanging-indent">MacAlpine, B., & Uddin, M. (2009). I<span class="title">ntegrating information
+                    literacy across the engineering design curriculum.</span> Retrieved from
+                https://api.semanticscholar.org/CorpusID:65275209</p>
+            <p class="hanging-indent">Nerz, H., & Bullard, L. (2006). <span class="title">The literate engineer:
+                    Infusing information literacy skills throughout an engineering curriculum.</span></p>
+            <p class="hanging-indent"><span class="title">New AI classifier for indicating AI-written text.
+                </span>(n.d.). Retrieved June 6, 2024, from
+                https://openai.com/index/new-ai-classifier-for-indicating-ai-written-text/</p>
+            <p class="hanging-indent"><span class="title">Our approach to data and AI. </span>(n.d.). Retrieved June 6,
+                2024, from https://openai.com/index/approach-to-data-and-ai/</p>
+            <p class="hanging-indent">Palmer, S. (2012). <span class="title">Integration of information literacy
+                    training into engineering and technology education. </span>Retrieved from
+                https://www.academia.edu/75262909/Integration_of_information_literacy_training_into_engineering_and_technology_education
+            </p>
+            <p class="hanging-indent">Parsons-Diamond, G. (2024, June 4). <span class="title">ACRL presents: The
+                    threshold achievement test for information literacy (TATIL). </span>ACRL Insider. Retrieved from
+                https://acrl.ala.org/acrlinsider/acrl-presents-the-threshold-achievement-test-for-information-literacy-tatil-2/
+            </p>
+            <p class="hanging-indent"><span class="title">Policy and resources. </span>(n.d.). Retrieved June 6, 2024,
+                from https://ai.asu.edu/policy-and-resources</p>
+            <p class="hanging-indent">Qin, J., & D�Ignazio, J. (2010). L<span class="title">essons learned from a
+                    two-year experience in science data literacy education. </span>International Association of
+                Scientific and Technological University Libraries, 31st Annual Conference.</p>
+            <p class="hanging-indent"><span class="title">Reducing bias and improving safety in DALL�E 2. </span>(n.d.).
+                Retrieved June 6, 2024, from https://openai.com/index/reducing-bias-and-improving-safety-in-dall-e-2/
+            </p>
+            <p class="hanging-indent">Rich, A. S., & Gureckis, T. M. (2019). <span class="title">Lessons for artificial
+                    intelligence from the study of natural stupidity. </span>Nature Machine Intelligence, 1(4), 174�180.
+            </p>
+            <p class="hanging-indent">Schield, M. (2004). <span class="title">Information literacy, statistical literacy
+                    and data literacy. </span>IASSIST Quarterly / International Association for Social Science
+                Information Service and Technology, 28, 7�14. https://doi.org/10.29173/iq790</p>
+            <p class="hanging-indent">Williams, B., & Blowers, P. (2003). <span class="title">Deconstruction of an
+                    engineering syllabus for information literacy. </span>ASEE Annual Conference Proceedings, 3565�3573.
+            </p>
+            <p class="hanging-indent">Williams, B., Blowers, P., & Goldberg, J. (2004). <span class="title">Integrating
+                    information literacy skills into engineering courses to produce lifelong learners.</span> ASEE
+                Annual Conference Proceedings, 7719�7729.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Bharat Jayprakash</p>
+    </footer>
+</body>
+
+</html>
