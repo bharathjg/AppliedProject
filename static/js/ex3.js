@@ -12,7 +12,10 @@ const wordCountDisplay = document.getElementById("wordCount");
 const editorButton = document.getElementById("editorSend");
 editorButton.style.backgroundColor = "grey"
 
-// const overlay = document.getElementById("overlay");
+const overlay = document.getElementById("overlay");
+overlay.style.display = "block"
+
+let messageHistory = [];
 
 // Function to add a new message to the chat window
 function addMessage(message, isSent) {
@@ -27,7 +30,13 @@ function addMessage(message, isSent) {
     // If it's a sent message, add the text content immediately
     if (isSent) {
         messageElement.textContent = message;
+        messageHistory.push({
+            "role": "user",
+            "content": message
+        })
     }
+
+    console.log(messageHistory)
     return messageElement;
 }
 
@@ -51,20 +60,38 @@ function streamTextIntoElement(element, text) {
     });
 }
 
-async function sendMessageToAPI(message, messageElement) {
-
-    const response = await fetch('/send_message',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "user_prompt": message,
-                "exercise": 3
-            })
-        }
-    )
+async function sendMessageToAPI(message, messageElement, flag) {
+    let response = null;
+    if (flag) {
+        response = await fetch('/send_message',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "user_prompt": message,
+                    "exercise": 3
+                }),
+                history: JSON.stringify(messageHistory)
+            }
+        )
+    }
+    else {
+        response = await fetch('/send_message',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "user_prompt": message,
+                    "exercise": 3
+                }),
+                history: null
+            }
+        )
+    }
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
@@ -98,6 +125,11 @@ async function sendMessageToAPI(message, messageElement) {
             }
         }
     }
+    messageHistory.push({
+        "role": "assistant",
+        "content": messageElement.textContent
+    })
+    console.log(messageHistory)
 }
 
 function showMessage() {
@@ -107,9 +139,8 @@ function showMessage() {
 }
 
 // Function to handle sending a message
-async function handleSendMessage() {
+async function handleSendMessage(flag) {
     const message = messageInput.value.trim();
-    const flag = sendButton.disabled
 
     // if (!flag) {
     //     overlay.style.display = "none";
@@ -131,7 +162,12 @@ async function handleSendMessage() {
             const aiMessageElement = addMessage('', false);
 
             // Send message to API and stream the response
-            await sendMessageToAPI(message, aiMessageElement);
+            if (flag) {
+                await sendMessageToAPI(message, aiMessageElement, true)
+            }
+            else {
+                await sendMessageToAPI(message, aiMessageElement, false);
+            }
 
         } catch (error) {
             console.error('Error:', error);
@@ -153,7 +189,7 @@ sendButton.addEventListener('click', handleSendMessage);
 messageInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault(); // Prevent default to avoid new line
-        handleSendMessage();
+        handleSendMessage(false);
     }
 });
 
@@ -207,8 +243,17 @@ function sendFromEditor() {
     const editorContent = document.getElementById('messageEditor').value.trim();
     if (editorContent) {
         document.getElementById('chatInput').value = editorContent;
-        handleSendMessage();
+        handleSendMessage(true);
         clearEditor();
+        editorButton.disabled = true
+        sendButton.disabled = true
+        wordCountDisplay.textContent = `Word count: ${0}`;
+        wordCountDisplay.style.color = "red"; // Under the limit
+        alertMessageElement.style.display = "none";
+
+        editorButton.style.backgroundColor = "grey"
+        sendButton.style.backgroundColor = "grey"
+        overlay.style.display = "block"
     }
 }
 
@@ -264,7 +309,7 @@ textEditor.addEventListener("input", () => {
 
         editorButton.style.backgroundColor = "grey"
         sendButton.style.backgroundColor = "grey"
-        // overlay.style.display = "block"
+        overlay.style.display = "block"
     } else {
         editorButton.disabled = false
         sendButton.disabled = false
@@ -272,7 +317,7 @@ textEditor.addEventListener("input", () => {
 
         editorButton.style.backgroundColor = "#007bff"
         sendButton.style.backgroundColor = "#007bff"
-        // overlay.style.display = "none";
+        overlay.style.display = "none";
     }
 });
 

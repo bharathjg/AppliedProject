@@ -6,7 +6,7 @@ from datetime import datetime
 import requests 
 import json
 import os
-from server.prompts import biographies, context_ex1, context_ex2, context_ex3
+from server.prompts import biographies, context_ex1, context_ex2, context_ex3, ex3_augment
 
 from server.utils import separate_text_string
 
@@ -78,6 +78,7 @@ class Backend_Api:
         system_prompt = ""
         user_prompt = request.get_json().get('user_prompt')
         exercise = int(request.get_json().get('exercise'))
+        history = request.get_json().get('history')
 
         if exercise == 1:
             system_prompt = context_ex1
@@ -90,27 +91,47 @@ class Backend_Api:
             system_prompt = context_ex2
         
         elif exercise == 3:
-            system_prompt = context_ex3
+            if history:
+                system_prompt = ex3_augment
+            else:
+                system_prompt = context_ex3
             user_choice = ' '.join(user_prompt.split()[-2:])
             print(user_choice)
             user_prompt = user_prompt + " Keep it brief."
         
         url = "https://api.openai.com/v1/chat/completions"
-
-        payload = {
-            "model": "gpt-4o",
-            "messages": [
-                {
-                    "role": "system",
-                    "content": system_prompt
-                },
-                {
-                    "role": "user",
-                    "content": user_prompt,
-                }
-            ],
-            "stream": True
-        }
+        
+        if history:
+            payload = {
+                "model": "gpt-4o",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": system_prompt
+                    },
+                    history,
+                    {
+                        "role": "user",
+                        "content": user_prompt,
+                    }
+                ],
+                "stream": True
+            }
+        else:
+            payload = {
+                "model": "gpt-4o",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": system_prompt
+                    },
+                    {
+                        "role": "user",
+                        "content": user_prompt,
+                    }
+                ],
+                "stream": True
+            }
 
         headers = {
             'Content-Type': 'application/json',
